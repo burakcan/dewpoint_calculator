@@ -24,8 +24,11 @@ export const App: FC = () => {
 
   const handleCalculate = useCallback(
     (room: { temperature: number; humidity: number }) => {
-      const outsideDewPoint = dewPoint(outside.temperature, outside.humidity);
-      const roomDewPoint = dewPoint(room.temperature, room.humidity);
+      const outsideDewPoint = dewPoint(
+        outside.temperature,
+        outside.humidity / 100
+      );
+      const roomDewPoint = dewPoint(room.temperature, room.humidity / 100);
 
       setDewPoints({
         room: roomDewPoint,
@@ -61,7 +64,7 @@ export const App: FC = () => {
               <InputNumber
                 style={{ width: "100%" }}
                 placeholder="Temperature"
-                formatter={(value) => (value ? `${value}°C` : "")}
+                formatter={(value) => (value !== "" ? `${value}°C` : "")}
                 parser={(value) => value.replace("°C", "")}
               />
             </Form.Item>
@@ -74,7 +77,7 @@ export const App: FC = () => {
               <InputNumber
                 style={{ width: "100%" }}
                 placeholder="Relative Humidity"
-                formatter={(value) => (value ? `${value}%` : "")}
+                formatter={(value) => (value !== "" ? `${value}%` : "")}
                 parser={(value) => value.replace("%", "")}
               />
             </Form.Item>
@@ -93,13 +96,13 @@ export const App: FC = () => {
         {dewPoints !== null && (
           <>
             <Typography.Title level={4}>Dew Points</Typography.Title>
-            <Row gutter={16}>
+            <Row gutter={0} style={{ width: "90%" }}>
               <Col span={12}>
                 <Card>
                   <Statistic
                     title="Pendik"
                     value={dewPoints.outside}
-                    precision={0}
+                    precision={1}
                     valueStyle={{
                       color:
                         dewPoints.outside > dewPoints.room
@@ -115,7 +118,7 @@ export const App: FC = () => {
                   <Statistic
                     title="Room"
                     value={dewPoints.room}
-                    precision={0}
+                    precision={1}
                     suffix="°C"
                     valueStyle={{
                       color:

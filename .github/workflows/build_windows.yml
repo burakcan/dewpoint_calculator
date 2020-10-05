@@ -26,11 +26,11 @@ jobs:
       # Runs a single command using the runners shell
       - name: NPM install
         run: npm install
-        
+
       - name: Make
         run: npm run make
-      
+
       - name: Upload Artifacts
         uses: actions/upload-artifact@v2
         with:
-          path: out/*
+          path: out/dewpoint_calculator-win32-x64/*
